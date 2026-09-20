@@ -16,20 +16,22 @@ import {
   ArrowRight,
   Binoculars,
   BookOpen,
-  Instagram,
   LayoutGrid,
+  MessageCircle,
   Radar,
   Search,
 } from "lucide-react";
 
 export default async function DashboardPage() {
   const user = await getSessionUser();
-  let accountsError: string | null = null;
-  const [accounts, txs, logs, comments, wallet] = await Promise.all([
-    aurora.listAccounts().catch((e) => {
-      accountsError = e instanceof Error ? e.message : "Erreur comptes";
-      return [];
-    }),
+  const [accountsResult, txs, logs, comments, wallet] = await Promise.all([
+    aurora.listAccounts().then(
+      (value) => ({ value, error: null as string | null }),
+      (e: unknown) => ({
+        value: [] as Awaited<ReturnType<typeof aurora.listAccounts>>,
+        error: e instanceof Error ? e.message : "Erreur comptes",
+      }),
+    ),
     aurora.listTransactions({ page: 1, page_size: 8 }).catch(() => ({
       transactions: [],
       total: 0,
@@ -45,6 +47,9 @@ export default async function DashboardPage() {
     meta.listComments().catch(() => []),
     loadWalletEstimate(),
   ]);
+
+  const accounts = accountsResult.value;
+  const accountsError = accountsResult.error;
 
   if (accounts.length) {
     await syncCachedAccounts(accounts);
@@ -67,7 +72,7 @@ export default async function DashboardPage() {
           <HomeSearch
             accounts={accounts.map((a) => ({
               id: a.id,
-              name: a.name,
+              name: a.name ?? null,
               type: a.type,
               status: a.status,
             }))}
@@ -160,7 +165,7 @@ export default async function DashboardPage() {
 
         <DashCard
           title="Intégration"
-          icon={Instagram}
+          icon={MessageCircle}
           headerRight={
             <Link href="/meta/inbox" className="text-[11px] text-muted-foreground hover:text-foreground">
               Configurer →
