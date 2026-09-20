@@ -19,7 +19,7 @@ export default async function MetaInboxPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Meta Inbox</h1>
+        <h1 className="page-title">Meta Inbox</h1>
         <p className="text-sm text-muted-foreground">
           Commentaires sous pubs et posts — répondre, masquer, supprimer. La suggestion IA ne
           part jamais toute seule.

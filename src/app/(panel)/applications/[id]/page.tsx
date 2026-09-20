@@ -10,16 +10,20 @@ export default async function ApplicationDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  let error: string | null = null;
-  const app = await aurora.getApplication(id).catch((e) => {
-    error = e instanceof Error ? e.message : "Demande introuvable";
-    return null;
-  });
+  const appResult = await aurora.getApplication(id).then(
+    (value) => ({ value, error: null as string | null }),
+    (e: unknown) => ({
+      value: null as Awaited<ReturnType<typeof aurora.getApplication>> | null,
+      error: e instanceof Error ? e.message : "Demande introuvable",
+    }),
+  );
+  const app = appResult.value;
+  const error = appResult.error;
 
   if (!app) {
     return (
       <div>
-        <h1 className="text-2xl font-semibold">Demande</h1>
+        <h1 className="page-title">Demande</h1>
         <p className="text-sm text-destructive">{error}</p>
       </div>
     );
@@ -29,7 +33,7 @@ export default async function ApplicationDetailPage({
     <div className="space-y-6">
       <div>
         <p className="text-xs uppercase tracking-wider text-muted-foreground">{app.type}</p>
-        <h1 className="text-2xl font-semibold">{app.request_id ?? app.id}</h1>
+        <h1 className="page-title">{app.request_id ?? app.id}</h1>
         <Badge className="mt-2" variant="outline">
           {app.status}
         </Badge>

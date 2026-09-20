@@ -30,8 +30,7 @@ export default async function WalletPage({
   const status = typeof sp.status === "string" ? sp.status : undefined;
   const currency = typeof sp.currency === "string" ? sp.currency : undefined;
 
-  let error: string | null = null;
-  const ledger = await aurora
+  const ledgerResult = await aurora
     .listTransactions({
       page,
       page_size: 50,
@@ -40,10 +39,15 @@ export default async function WalletPage({
       status: status === "pending" || status === "completed" ? status : undefined,
       currency: currency === "USD" || currency === "EUR" || currency === "GBP" ? currency : undefined,
     })
-    .catch((e) => {
-      error = e instanceof Error ? e.message : "Impossible de charger le wallet";
-      return null;
-    });
+    .then(
+      (value) => ({ value, error: null as string | null }),
+      (e: unknown) => ({
+        value: null as Awaited<ReturnType<typeof aurora.listTransactions>> | null,
+        error: e instanceof Error ? e.message : "Impossible de charger le wallet",
+      }),
+    );
+  const ledger = ledgerResult.value;
+  const error = ledgerResult.error;
 
   const [attributions, users] = await Promise.all([
     prisma.spendAttribution.findMany(),
@@ -72,7 +76,7 @@ export default async function WalletPage({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Portefeuille</h1>
+        <h1 className="page-title">Portefeuille</h1>
         <p className="text-sm text-muted-foreground">
           Ledger Aurora + colonne d’attribution Rustine (« Par qui »).
         </p>
@@ -83,12 +87,12 @@ export default async function WalletPage({
           <CardTitle>Filtres</CardTitle>
         </CardHeader>
         <CardContent>
-          <form className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5" method="get">
+          <form className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5" method="get">
             <Input name="search" placeholder="Recherche" defaultValue={search ?? ""} />
             <select
               name="type"
               defaultValue={type}
-              className="h-9 rounded-md border border-input bg-[#0B0F14] px-3 text-sm"
+              className="field"
             >
               <option value="all">Tous les sens</option>
               <option value="incoming">Entrées</option>
@@ -98,7 +102,7 @@ export default async function WalletPage({
             <select
               name="status"
               defaultValue={status ?? ""}
-              className="h-9 rounded-md border border-input bg-[#0B0F14] px-3 text-sm"
+              className="field"
             >
               <option value="">Tous statuts</option>
               <option value="completed">Complété</option>
@@ -107,7 +111,7 @@ export default async function WalletPage({
             <select
               name="currency"
               defaultValue={currency ?? ""}
-              className="h-9 rounded-md border border-input bg-[#0B0F14] px-3 text-sm"
+              className="field"
             >
               <option value="">Toutes devises</option>
               <option value="USD">USD</option>
@@ -116,7 +120,7 @@ export default async function WalletPage({
             </select>
             <button
               type="submit"
-              className="h-9 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground"
+              className="h-11 w-full rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground touch-manipulation sm:w-auto"
             >
               Filtrer
             </button>
@@ -171,7 +175,7 @@ export default async function WalletPage({
                         className={
                           tx.amount_cents < 0
                             ? "tabular-nums text-destructive"
-                            : "tabular-nums text-[#3DDC97]"
+                            : "tabular-nums text-primary"
                         }
                       >
                         {formatCents(tx.amount_cents, tx.currency)}
@@ -180,7 +184,7 @@ export default async function WalletPage({
                   ))}
                 </TableBody>
               </Table>
-              <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
+              <div className="mt-4 flex flex-col gap-2 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
                 <span>
                   Page {ledger.page} / {ledger.page_count} · {ledger.total} tx
                 </span>

@@ -19,7 +19,7 @@ export default async function MetaAdsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Meta Ads</h1>
+        <h1 className="page-title">Meta Ads</h1>
         <p className="text-sm text-muted-foreground">
           Aperçu campagnes / pubs. Pause et reprise passent par le client Graph (ou la
           simulation) et le journal d’audit.

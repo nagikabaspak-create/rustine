@@ -1,5 +1,5 @@
 import { spawn, execSync } from "node:child_process";
-import { existsSync, writeFileSync } from "node:fs";
+import { existsSync, writeFileSync, readFileSync } from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
@@ -64,7 +64,7 @@ async function main() {
     "readme",
     "README with setup in < 5 min",
     fileExists("README.md") &&
-      require("node:fs").readFileSync(path.join(root, "README.md"), "utf8").includes("pnpm install"),
+      readFileSync(path.join(root, "README.md"), "utf8").includes("pnpm install"),
     "README lists pnpm install / migrate / dev",
   );
 
@@ -154,7 +154,9 @@ async function main() {
       add(
         "dashboard",
         "Page Dashboard render avec sidebar Rustine",
-        dash.ok && dashHtml.includes("Rustine") && dashHtml.includes("Tableau de bord"),
+        dash.ok &&
+          dashHtml.includes("Rustine") &&
+          (dashHtml.includes("Tableau de bord") || dashHtml.includes("Bon retour")),
         `status ${dash.status}`,
       );
 

@@ -30,17 +30,21 @@ function balanceFor(account: {
 }
 
 export default async function AccountsPage() {
-  let error: string | null = null;
-  const accounts = await aurora.listAccounts().catch((e) => {
-    error = e instanceof Error ? e.message : "Impossible de lister les comptes";
-    return [];
-  });
+  const accountsResult = await aurora.listAccounts().then(
+    (value) => ({ value, error: null as string | null }),
+    (e: unknown) => ({
+      value: [] as Awaited<ReturnType<typeof aurora.listAccounts>>,
+      error: e instanceof Error ? e.message : "Impossible de lister les comptes",
+    }),
+  );
+  const accounts = accountsResult.value;
+  const error = accountsResult.error;
   if (accounts.length) await syncCachedAccounts(accounts);
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Comptes pubs</h1>
+        <h1 className="page-title">Comptes pubs</h1>
         <p className="text-sm text-muted-foreground">
           Liste Aurora, soldes, top-up / clear funds / BM share.
         </p>

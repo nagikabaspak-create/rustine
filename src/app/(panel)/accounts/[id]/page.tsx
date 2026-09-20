@@ -24,11 +24,15 @@ export default async function AccountDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  let error: string | null = null;
-  const account = await aurora.getAccount(id).catch((e) => {
-    error = e instanceof Error ? e.message : "Compte introuvable";
-    return null;
-  });
+  const accountResult = await aurora.getAccount(id).then(
+    (value) => ({ value, error: null as string | null }),
+    (e: unknown) => ({
+      value: null as Awaited<ReturnType<typeof aurora.getAccount>> | null,
+      error: e instanceof Error ? e.message : "Compte introuvable",
+    }),
+  );
+  const account = accountResult.value;
+  const error = accountResult.error;
   if (!account && !error) notFound();
 
   const logs = await prisma.actionLog.findMany({
@@ -41,7 +45,7 @@ export default async function AccountDetailPage({
   if (!account) {
     return (
       <div>
-        <h1 className="text-2xl font-semibold">Compte</h1>
+        <h1 className="page-title">Compte</h1>
         <p className="text-sm text-destructive">{error}</p>
       </div>
     );
@@ -56,7 +60,7 @@ export default async function AccountDetailPage({
           <p className="text-xs uppercase tracking-wider text-muted-foreground">
             {account.type}
           </p>
-          <h1 className="text-2xl font-semibold">{account.name ?? account.id}</h1>
+          <h1 className="page-title">{account.name ?? account.id}</h1>
           <p className="font-mono text-xs text-muted-foreground">{account.id}</p>
         </div>
         <div className="flex flex-wrap gap-2">

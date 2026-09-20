@@ -199,7 +199,7 @@ export function InboxBoard({
               <CardContent className="space-y-3">
                 {suggestion ? (
                   <>
-                    <p className="rounded-lg border border-border bg-[#0B0F14] p-3 text-sm">
+                    <p className="rounded-xl border border-border bg-background p-3 text-sm">
                       {suggestion.text}
                     </p>
                     <p className="text-xs text-muted-foreground">{suggestion.rationale}</p>

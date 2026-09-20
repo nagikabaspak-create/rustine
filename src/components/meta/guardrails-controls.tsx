@@ -41,7 +41,7 @@ export function UsageMeter({
   suffix?: string;
 }) {
   const pct = Math.max(0, Math.min(100, value));
-  const tone = pct >= 80 ? "bg-destructive" : pct >= 50 ? "bg-[#F5C16C]" : "bg-[#3DDC97]";
+  const tone = pct >= 80 ? "bg-destructive" : pct >= 50 ? "bg-[#F5C16C]" : "bg-primary";
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between text-sm">
