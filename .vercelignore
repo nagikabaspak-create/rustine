@@ -1,7 +1,8 @@
 .next
 node_modules
 .env
-.env.*
-!.env.example
+.env.local
+.env.production
+.env.development
 .git
 uploads
