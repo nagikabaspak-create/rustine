@@ -21,14 +21,29 @@ export default async function LoginPage() {
   if (user) redirect("/");
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 py-10">
+    <div className="flex min-h-dvh flex-col items-center justify-center bg-background px-3 py-8 sm:px-4 sm:py-10">
       <BrandLockup className="mb-8" size={28} />
 
-      <div className="w-full max-w-[1100px] rounded-[28px] border border-[#2a2a2a] bg-shell p-3 sm:p-4">
+      <div className="w-full max-w-[1100px] rounded-2xl border border-[#2a2a2a] bg-shell p-2 sm:rounded-[28px] sm:p-4">
         <div className="grid items-stretch gap-3 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
-          <div className="flex flex-col justify-center px-6 py-10 sm:px-12 lg:px-16">
+          <div className="flex flex-col justify-center px-4 py-8 sm:px-12 sm:py-10 lg:px-16">
             <h1 className="mb-6 text-[15px] font-medium">Content de te revoir</h1>
             <LoginForm />
+            <div className="login-mobile-stats mt-8 grid grid-cols-2 gap-2 lg:hidden">
+              {STATS.slice(0, 4).map((stat) => {
+                const Icon = stat.icon;
+                return (
+                  <div
+                    key={stat.label}
+                    className="rounded-2xl border border-border bg-[#0a0a0a] px-3 py-3"
+                  >
+                    <Icon className="mb-2 h-3.5 w-3.5 text-muted-foreground" />
+                    <p className="text-sm font-medium tabular-nums">{stat.value}</p>
+                    <p className="text-[11px] text-muted-foreground">{stat.label}</p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           <div className="login-hero relative hidden min-h-[540px] overflow-hidden rounded-[22px] p-8 lg:flex lg:flex-col lg:justify-between lg:p-10">

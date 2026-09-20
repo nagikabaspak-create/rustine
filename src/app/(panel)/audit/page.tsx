@@ -21,7 +21,7 @@ export default async function AuditPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Journal des actions</h1>
+        <h1 className="page-title">Journal des actions</h1>
         <p className="text-sm text-muted-foreground">
           Toutes les mutations déclenchées depuis Rustine.
         </p>

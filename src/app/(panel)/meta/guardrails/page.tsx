@@ -16,7 +16,7 @@ export default async function MetaGuardrailsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Meta Garde-fous</h1>
+        <h1 className="page-title">Meta Garde-fous</h1>
         <p className="text-sm text-muted-foreground">
           Un plafond n’est pas un token mort. Ces contrôles existent pour que l’ancien panneau
           « qui a tué la clé » ne se reproduise pas.

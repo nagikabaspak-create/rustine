@@ -14,17 +14,21 @@ import Link from "next/link";
 import { CreateApplicationDialog } from "@/components/applications/create-application-dialog";
 
 export default async function ApplicationsPage() {
-  let error: string | null = null;
-  const apps = await aurora.listApplications().catch((e) => {
-    error = e instanceof Error ? e.message : "Impossible de charger les demandes";
-    return [];
-  });
+  const appsResult = await aurora.listApplications().then(
+    (value) => ({ value, error: null as string | null }),
+    (e: unknown) => ({
+      value: [] as Awaited<ReturnType<typeof aurora.listApplications>>,
+      error: e instanceof Error ? e.message : "Impossible de charger les demandes",
+    }),
+  );
+  const apps = appsResult.value;
+  const error = appsResult.error;
 
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold">Demandes de comptes</h1>
+          <h1 className="page-title">Demandes de comptes</h1>
           <p className="text-sm text-muted-foreground">
             Applications Aurora : liste, détail, messages, création META.
           </p>

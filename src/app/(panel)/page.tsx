@@ -65,7 +65,7 @@ export default async function DashboardPage() {
 
       <section className="flex flex-col items-center pt-4 text-center">
         <LogoMark size={44} className="mb-5 rounded-[12px]" />
-        <h2 className="text-[2rem] font-semibold tracking-tight sm:text-[2.35rem]">
+        <h2 className="px-1 text-[1.75rem] font-semibold tracking-tight sm:text-[2.35rem]">
           Bon retour, {firstName}.
         </h2>
         <div className="mt-7 w-full">
@@ -84,7 +84,7 @@ export default async function DashboardPage() {
         <p className="text-center text-sm text-destructive">{accountsError}</p>
       ) : null}
 
-      <section className="flex gap-3 overflow-x-auto pb-2">
+      <section className="snap-row -mx-1 px-1 sm:mx-0 sm:px-0">
         <DashCard
           title="Activité"
           icon={Radar}
@@ -218,7 +218,7 @@ export default async function DashboardPage() {
         </DashCard>
       </section>
 
-      <section className="grid gap-3 sm:grid-cols-3">
+      <section className="grid gap-3 grid-cols-1 sm:grid-cols-3">
         <MiniStat
           label="Wallet estimé"
           value={formatCents(wallet.cents, wallet.currency)}
@@ -257,7 +257,7 @@ function DashCard({
   children: ReactNode;
 }) {
   return (
-    <Card className="flex min-h-[320px] min-w-[260px] flex-1 flex-col">
+    <Card className="flex min-h-[280px] w-[min(100%,18rem)] shrink-0 flex-col sm:min-h-[320px] sm:min-w-[260px] sm:w-auto sm:flex-1">
       <div className="flex items-center justify-between gap-2 px-5 pt-4">
         <div className="flex items-center gap-2 text-[13px] text-muted-foreground">
           <Icon className="h-3.5 w-3.5" />

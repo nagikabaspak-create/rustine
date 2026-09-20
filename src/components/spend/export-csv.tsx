@@ -23,7 +23,7 @@ export function ExportCsvButton({
     URL.revokeObjectURL(url);
   }
   return (
-    <Button variant="outline" onClick={download}>
+    <Button variant="outline" className="w-full touch-manipulation sm:w-auto" onClick={download}>
       Export CSV
     </Button>
   );
