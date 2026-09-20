@@ -26,6 +26,8 @@ function loadEnvFile(file) {
 }
 
 loadEnvFile(path.join(root, ".env"));
+loadEnvFile(path.join(root, ".env.production"));
+loadEnvFile(path.join(root, ".env.local"));
 
 const queryUrl =
   process.env.DATABASE_URL ||
