@@ -2,7 +2,7 @@
 
 Panel interne **Rustine** pour Micha et Xian Mu : wallet Aurora / Vantage, ad accounts, top-ups, attribution locale « qui a dépensé quoi », et simulation Meta Ads.
 
-UI sombre fintech (`#0B0F14` / `#121821` / accent `#5B8CFF`). Next.js App Router, Prisma **PostgreSQL**, sessions cookie.
+UI sombre type Trendtrack (`#050505` / cartes `#121212` / accent lime `#C8FF00`). Next.js App Router, Prisma **PostgreSQL**, sessions cookie.
 
 Sans `AURORA_API_KEY` ni tokens Meta, l’app tourne entièrement en **mocks** (démo Vercel).
 

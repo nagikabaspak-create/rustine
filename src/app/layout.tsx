@@ -32,9 +32,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           position="top-right"
           toastOptions={{
             style: {
-              background: "#121821",
-              border: "1px solid #1E2A3A",
-              color: "#E8EEF7",
+              background: "#121212",
+              border: "1px solid #333333",
+              color: "#F5F5F5",
             },
           }}
         />

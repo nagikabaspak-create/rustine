@@ -4,7 +4,7 @@ import Link from "next/link";
 export function MetaMockBanner({ mock }: { mock: boolean }) {
   if (!mock) {
     return (
-      <div className="rounded-lg border border-[#3DDC97]/30 bg-[#3DDC97]/10 px-4 py-3 text-sm">
+      <div className="rounded-2xl border border-success/30 bg-success/10 px-4 py-3 text-sm">
         Client Meta en <span className="font-semibold">LIVE</span> — les appels passent par
         Graph (<code className="font-mono text-xs">graph.facebook.com</code>). Un 17 / 613 /
         80004 n’invalide pas le token.
@@ -12,7 +12,7 @@ export function MetaMockBanner({ mock }: { mock: boolean }) {
     );
   }
   return (
-    <div className="rounded-lg border border-primary/30 bg-primary/10 px-4 py-3 text-sm">
+    <div className="rounded-2xl border border-primary/30 bg-primary/10 px-4 py-3 text-sm">
       Simulation Meta — colle <code className="font-mono text-xs">META_PAGE_ACCESS_TOKEN</code>{" "}
       (ou <code className="font-mono text-xs">META_ACCESS_TOKEN</code>) pour le live.
     </div>
@@ -22,7 +22,7 @@ export function MetaMockBanner({ mock }: { mock: boolean }) {
 export function MetaKillBanner({ enabled }: { enabled: boolean }) {
   if (!enabled) return null;
   return (
-    <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm">
+    <div className="rounded-2xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm">
       Coupe-circuit actif — les écritures Meta sont bloquées côté Rustine. Le token n’est pas
       révoqué. Désactivez-le dans{" "}
       <Link href="/meta/guardrails" className="text-primary underline">

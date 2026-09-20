@@ -88,7 +88,7 @@ export default async function WalletPage({
             <select
               name="type"
               defaultValue={type}
-              className="h-9 rounded-md border border-input bg-[#0B0F14] px-3 text-sm"
+              className="field"
             >
               <option value="all">Tous les sens</option>
               <option value="incoming">Entrées</option>
@@ -98,7 +98,7 @@ export default async function WalletPage({
             <select
               name="status"
               defaultValue={status ?? ""}
-              className="h-9 rounded-md border border-input bg-[#0B0F14] px-3 text-sm"
+              className="field"
             >
               <option value="">Tous statuts</option>
               <option value="completed">Complété</option>
@@ -107,7 +107,7 @@ export default async function WalletPage({
             <select
               name="currency"
               defaultValue={currency ?? ""}
-              className="h-9 rounded-md border border-input bg-[#0B0F14] px-3 text-sm"
+              className="field"
             >
               <option value="">Toutes devises</option>
               <option value="USD">USD</option>
@@ -116,7 +116,7 @@ export default async function WalletPage({
             </select>
             <button
               type="submit"
-              className="h-9 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground"
+              className="h-10 rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground"
             >
               Filtrer
             </button>
@@ -171,7 +171,7 @@ export default async function WalletPage({
                         className={
                           tx.amount_cents < 0
                             ? "tabular-nums text-destructive"
-                            : "tabular-nums text-[#3DDC97]"
+                            : "tabular-nums text-primary"
                         }
                       >
                         {formatCents(tx.amount_cents, tx.currency)}

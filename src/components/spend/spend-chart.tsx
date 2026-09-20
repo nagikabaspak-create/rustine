@@ -23,14 +23,14 @@ export function SpendChart({
     <div className="h-72 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={rows}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#1E2A3A" />
-          <XAxis dataKey="name" stroke="#8B9BB4" />
-          <YAxis stroke="#8B9BB4" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#333333" />
+          <XAxis dataKey="name" stroke="#8a8a8a" />
+          <YAxis stroke="#8a8a8a" />
           <Tooltip
-            contentStyle={{ background: "#121821", border: "1px solid #1E2A3A" }}
+            contentStyle={{ background: "#121212", border: "1px solid #333333" }}
             formatter={(value) => [`${value ?? 0} USD`, "Spend"]}
           />
-          <Bar dataKey="usd" fill="#5B8CFF" radius={[6, 6, 0, 0]} />
+          <Bar dataKey="usd" fill="#C8FF00" radius={[8, 8, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

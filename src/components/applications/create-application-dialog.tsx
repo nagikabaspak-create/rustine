@@ -60,7 +60,7 @@ export function CreateApplicationDialog() {
               <Label>Devise</Label>
               <select
                 name="currency"
-                className="h-9 w-full rounded-md border border-input bg-[#0B0F14] px-3 text-sm"
+                className="field"
                 defaultValue="USD"
               >
                 <option>USD</option>

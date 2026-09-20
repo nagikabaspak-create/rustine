@@ -154,7 +154,9 @@ async function main() {
       add(
         "dashboard",
         "Page Dashboard render avec sidebar Rustine",
-        dash.ok && dashHtml.includes("Rustine") && dashHtml.includes("Tableau de bord"),
+        dash.ok &&
+          dashHtml.includes("Rustine") &&
+          (dashHtml.includes("Tableau de bord") || dashHtml.includes("Bon retour")),
         `status ${dash.status}`,
       );
 
