@@ -1,0 +1,3694 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/ad-account/list": {
+      "get": {
+        "operationId": "ExposedApiV1AdAccountController_listAccounts",
+        "summary": "List all ad accounts",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List of ad accounts. Response envelope: `{ data: AdAccountResponseDTO[], metadata: { request_id, timestamp } }`",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdAccountResponseDTO"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing API key."
+          },
+          "403": {
+            "description": "Insufficient permissions or API access not enabled."
+          },
+          "429": {
+            "description": "Rate limit exceeded."
+          }
+        },
+        "tags": [
+          "Exposed API"
+        ],
+        "security": [
+          {
+            "api-key": []
+          },
+          {
+            "api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/ad-account/{account_id}": {
+      "get": {
+        "operationId": "ExposedApiV1AdAccountController_getAdAccountById",
+        "summary": "Get ad account details by ID",
+        "parameters": [
+          {
+            "name": "account_id",
+            "required": true,
+            "in": "path",
+            "description": "UUID of the ad account (format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx).",
+            "schema": {
+              "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ad account details. Response envelope: `{ data: AdAccountResponseDTO, metadata: { request_id, timestamp } }`",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdAccountResponseDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing API key."
+          },
+          "403": {
+            "description": "Insufficient permissions or API access not enabled."
+          },
+          "404": {
+            "description": "Ad account not found for this company."
+          },
+          "429": {
+            "description": "Rate limit exceeded."
+          }
+        },
+        "tags": [
+          "Exposed API"
+        ],
+        "security": [
+          {
+            "api-key": []
+          },
+          {
+            "api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/ad-account/bm-share-request/{adAccountType}/{account_id}/create": {
+      "post": {
+        "operationId": "ExposedApiV1AdAccountController_createAdAccountBMShareRequest",
+        "summary": "Request Business Manager share access",
+        "parameters": [
+          {
+            "name": "account_id",
+            "required": true,
+            "in": "path",
+            "description": "UUID of the ad account.",
+            "schema": {
+              "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+              "type": "string"
+            }
+          },
+          {
+            "name": "adAccountType",
+            "required": true,
+            "in": "path",
+            "description": "Ad platform type of the account.",
+            "schema": {
+              "enum": [
+                "UNKNOWN",
+                "META",
+                "GOOGLE",
+                "TIKTOK",
+                "SNAPCHAT",
+                "BING",
+                "OUTBRAIN",
+                "TABOOLA",
+                "NEWSBREAK",
+                "MEDIAGO"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAdAccountBMShareRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "BM share request created. Response envelope: `{ data: BMShareRequestResponseDTO, metadata: { request_id, timestamp } }`",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BMShareRequestResponseDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BM ID already has a pending request, or TikTok missing email."
+          },
+          "401": {
+            "description": "Invalid or missing API key."
+          },
+          "403": {
+            "description": "Insufficient permissions or API access not enabled."
+          },
+          "404": {
+            "description": "Ad account not found for this company."
+          },
+          "429": {
+            "description": "Rate limit exceeded."
+          }
+        },
+        "tags": [
+          "Exposed API"
+        ],
+        "security": [
+          {
+            "api-key": []
+          },
+          {
+            "api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/ad-account/bm-share-request/bulk/create": {
+      "post": {
+        "operationId": "ExposedApiV1AdAccountController_createBulkAdAccountBMShareRequests",
+        "summary": "Create bulk Business Manager share requests",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateExposedBulkBMShareRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Bulk BM share requests created. Response envelope: `{ data: BulkBMShareResponseDTO, metadata: { request_id, timestamp } }`",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkBMShareResponseDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, duplicate BM ID, or TikTok missing email."
+          },
+          "401": {
+            "description": "Invalid or missing API key."
+          },
+          "403": {
+            "description": "Insufficient permissions or API access not enabled."
+          },
+          "429": {
+            "description": "Rate limit exceeded."
+          }
+        },
+        "tags": [
+          "Exposed API"
+        ],
+        "security": [
+          {
+            "api-key": []
+          },
+          {
+            "api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/ad-account/appeal/{adAccountType}/{account_id}/create": {
+      "post": {
+        "operationId": "ExposedApiV1AdAccountController_createAdAccountAppeal",
+        "summary": "Submit an appeal for a disabled ad account",
+        "parameters": [
+          {
+            "name": "account_id",
+            "required": true,
+            "in": "path",
+            "description": "UUID of the ad account.",
+            "schema": {
+              "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+              "type": "string"
+            }
+          },
+          {
+            "name": "adAccountType",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "enum": [
+                "UNKNOWN",
+                "META",
+                "GOOGLE",
+                "TIKTOK",
+                "SNAPCHAT",
+                "BING",
+                "OUTBRAIN",
+                "TABOOLA",
+                "NEWSBREAK",
+                "MEDIAGO"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "files"
+                ],
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    },
+                    "description": "Evidence files for the appeal (1\u20135 files, max 20 MB each)."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Appeal submitted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppealResponseDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "An appeal is already active for this account."
+          },
+          "401": {
+            "description": "Invalid or missing API key."
+          },
+          "403": {
+            "description": "Insufficient permissions or API access not enabled."
+          },
+          "404": {
+            "description": "Ad account not found for this company."
+          },
+          "429": {
+            "description": "Rate limit exceeded."
+          }
+        },
+        "tags": [
+          "Exposed API"
+        ],
+        "security": [
+          {
+            "api-key": []
+          },
+          {
+            "api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/ad-account/clear-funds/{adAccountType}/{account_id}/create": {
+      "post": {
+        "operationId": "ExposedApiV1AdAccountController_createAdAccountClearFundsRequest",
+        "summary": "Request withdrawal of funds from an ad account",
+        "parameters": [
+          {
+            "name": "account_id",
+            "required": true,
+            "in": "path",
+            "description": "UUID of the ad account.",
+            "schema": {
+              "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+              "type": "string"
+            }
+          },
+          {
+            "name": "adAccountType",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "enum": [
+                "UNKNOWN",
+                "META",
+                "GOOGLE",
+                "TIKTOK",
+                "SNAPCHAT",
+                "BING",
+                "OUTBRAIN",
+                "TABOOLA",
+                "NEWSBREAK",
+                "MEDIAGO"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAdAccountClearFundsRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Clear funds request created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClearFundsRequestResponseDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A clear funds request is already pending for this account."
+          },
+          "401": {
+            "description": "Invalid or missing API key."
+          },
+          "403": {
+            "description": "Insufficient permissions or API access not enabled."
+          },
+          "404": {
+            "description": "Ad account not found for this company."
+          },
+          "422": {
+            "description": "Account payment method is CLIENT_CARD \u2014 operation not allowed. PROVIDER_CARD accounts are eligible."
+          },
+          "429": {
+            "description": "Rate limit exceeded."
+          }
+        },
+        "tags": [
+          "Exposed API"
+        ],
+        "security": [
+          {
+            "api-key": []
+          },
+          {
+            "api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/ad-account/top-up-request/{adAccountType}/{account_id}/create": {
+      "post": {
+        "operationId": "ExposedApiV1AdAccountController_createGenericAdAccountTopUp",
+        "summary": "Top up an ad account",
+        "parameters": [
+          {
+            "name": "account_id",
+            "required": true,
+            "in": "path",
+            "description": "UUID of the ad account.",
+            "schema": {
+              "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+              "type": "string"
+            }
+          },
+          {
+            "name": "adAccountType",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "enum": [
+                "UNKNOWN",
+                "META",
+                "GOOGLE",
+                "TIKTOK",
+                "SNAPCHAT",
+                "BING",
+                "OUTBRAIN",
+                "TABOOLA",
+                "NEWSBREAK",
+                "MEDIAGO"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "In both modes the fee is `amount \u00d7 fee_rate` (rate \u00d7 the amount you send). `add_fee=false` (default): the fee is deducted \u2014 `amount` charged, `amount \u2212 fee` credited. `add_fee=true`: the fee is added on top \u2014 `amount + fee` charged, `amount` credited in full. Fee % is always against the amount you sent.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAdAccountTopUpRequestDTO"
+              },
+              "examples": {
+                "simple": {
+                  "summary": "Fee deducted (default)",
+                  "value": {
+                    "amount": 500
+                  }
+                },
+                "with_fee": {
+                  "summary": "Fee added on top (amount lands in full)",
+                  "value": {
+                    "amount": 500,
+                    "add_fee": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Top-up request enqueued. LIVE keys receive the persisted request id and its fee breakdown (mode, rate as a fraction, requested / charged / fee / credited cents); DRY_RUN keys receive the simulated projection.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TopUpCreatedResponseDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing API key."
+          },
+          "403": {
+            "description": "Insufficient permissions or API access not enabled."
+          },
+          "404": {
+            "description": "Ad account not found for this company."
+          },
+          "422": {
+            "description": "Insufficient company balance, or account payment method is CLIENT_CARD (PROVIDER_CARD accounts are eligible)."
+          },
+          "429": {
+            "description": "Rate limit exceeded."
+          }
+        },
+        "tags": [
+          "Exposed API"
+        ],
+        "security": [
+          {
+            "api-key": []
+          },
+          {
+            "api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/ad-account-application/list": {
+      "get": {
+        "operationId": "ExposedApiV1AdAccountApplicationController_listApplications",
+        "summary": "List all ad account applications",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List of applications.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApplicationResponseDTO"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing API key."
+          },
+          "403": {
+            "description": "Insufficient permissions or API access not enabled."
+          },
+          "429": {
+            "description": "Rate limit exceeded."
+          }
+        },
+        "tags": [
+          "Exposed API"
+        ],
+        "security": [
+          {
+            "api-key": []
+          },
+          {
+            "api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/ad-account-application/details/{id}": {
+      "get": {
+        "operationId": "ExposedApiV1AdAccountApplicationController_getApplicationById",
+        "summary": "Get a specific ad account application",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "UUID of the ad account application.",
+            "schema": {
+              "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Application details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponseDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing API key."
+          },
+          "403": {
+            "description": "Insufficient permissions or API access not enabled."
+          },
+          "404": {
+            "description": "Application not found for this company."
+          },
+          "429": {
+            "description": "Rate limit exceeded."
+          }
+        },
+        "tags": [
+          "Exposed API"
+        ],
+        "security": [
+          {
+            "api-key": []
+          },
+          {
+            "api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/ad-account-application/platform-config/{type}": {
+      "get": {
+        "operationId": "ExposedApiV1AdAccountApplicationController_getPlatformConfigurations",
+        "summary": "Get platform configuration (currencies, fees)",
+        "parameters": [
+          {
+            "name": "type",
+            "required": true,
+            "in": "path",
+            "description": "Ad platform type.",
+            "schema": {
+              "enum": [
+                "UNKNOWN",
+                "META",
+                "GOOGLE",
+                "TIKTOK",
+                "SNAPCHAT",
+                "BING",
+                "OUTBRAIN",
+                "TABOOLA",
+                "NEWSBREAK",
+                "MEDIAGO"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Platform configuration.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlatformConfigResponseDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid platform type."
+          },
+          "401": {
+            "description": "Invalid or missing API key."
+          },
+          "403": {
+            "description": "Insufficient permissions or API access not enabled."
+          },
+          "429": {
+            "description": "Rate limit exceeded."
+          }
+        },
+        "tags": [
+          "Exposed API"
+        ],
+        "security": [
+          {
+            "api-key": []
+          },
+          {
+            "api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/ad-account-application/{adAccountType}/begin": {
+      "post": {
+        "operationId": "ExposedApiV1AdAccountApplicationController_beginAdAccountApplication",
+        "summary": "Begin a Meta application session (allocates a Facebook profile + request_id)",
+        "parameters": [
+          {
+            "name": "adAccountType",
+            "required": true,
+            "in": "path",
+            "description": "Ad platform type. Only META requires a begin session; other platforms return session_required:false and can be created directly.",
+            "schema": {
+              "enum": [
+                "UNKNOWN",
+                "META",
+                "GOOGLE",
+                "TIKTOK",
+                "SNAPCHAT",
+                "BING",
+                "OUTBRAIN",
+                "TABOOLA",
+                "NEWSBREAK",
+                "MEDIAGO"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Begin session started. Use request_id when creating a META application.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExposedBeginApplicationResponseDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing API key."
+          },
+          "403": {
+            "description": "Insufficient permissions or API access not enabled."
+          },
+          "429": {
+            "description": "Rate limit exceeded."
+          }
+        },
+        "tags": [
+          "Exposed API"
+        ],
+        "security": [
+          {
+            "api-key": []
+          },
+          {
+            "api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/ad-account-application/{adAccountType}/create": {
+      "post": {
+        "operationId": "ExposedApiV1AdAccountApplicationController_createAdAccountApplication",
+        "summary": "Create an ad account application",
+        "parameters": [
+          {
+            "name": "adAccountType",
+            "required": true,
+            "in": "path",
+            "description": "Ad platform type. Must match the \"type\" field in the request body.",
+            "schema": {
+              "enum": [
+                "UNKNOWN",
+                "META",
+                "GOOGLE",
+                "TIKTOK",
+                "SNAPCHAT",
+                "BING",
+                "OUTBRAIN",
+                "TABOOLA",
+                "NEWSBREAK",
+                "MEDIAGO"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAdAccountApplicationDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Application created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponseDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error."
+          },
+          "401": {
+            "description": "Invalid or missing API key."
+          },
+          "403": {
+            "description": "Insufficient permissions or API access not enabled."
+          },
+          "429": {
+            "description": "Rate limit exceeded."
+          }
+        },
+        "tags": [
+          "Exposed API"
+        ],
+        "security": [
+          {
+            "api-key": []
+          },
+          {
+            "api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/ad-account-application/{adAccountType}/{id}/messages/create": {
+      "post": {
+        "operationId": "ExposedApiV1AdAccountApplicationController_createAdAccountApplicationMessage",
+        "summary": "Send a message to an ad account application",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "UUID of the ad account application.",
+            "schema": {
+              "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+              "type": "string"
+            }
+          },
+          {
+            "name": "adAccountType",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "enum": [
+                "UNKNOWN",
+                "META",
+                "GOOGLE",
+                "TIKTOK",
+                "SNAPCHAT",
+                "BING",
+                "OUTBRAIN",
+                "TABOOLA",
+                "NEWSBREAK",
+                "MEDIAGO"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Message content.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              },
+              "examples": {
+                "example": {
+                  "summary": "Simple message",
+                  "value": {
+                    "content": "Additional information here."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Message created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationMessageResponseDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Message content contains profanity."
+          },
+          "401": {
+            "description": "Invalid or missing API key."
+          },
+          "403": {
+            "description": "Insufficient permissions or API access not enabled."
+          },
+          "404": {
+            "description": "Application not found for this company."
+          },
+          "429": {
+            "description": "Rate limit exceeded."
+          }
+        },
+        "tags": [
+          "Exposed API"
+        ],
+        "security": [
+          {
+            "api-key": []
+          },
+          {
+            "api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/validate": {
+      "get": {
+        "operationId": "ExposedApiV1ValidateController_whoami",
+        "summary": "Validate API key setup (whoami): scope, permissions, and execution mode",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "API key context. For DRY_RUN keys, real_mutations_allowed and real_provider_calls_allowed are false.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WhoamiResponseDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing API key."
+          },
+          "403": {
+            "description": "Insufficient permissions or API access not enabled."
+          },
+          "429": {
+            "description": "Rate limit exceeded."
+          }
+        },
+        "tags": [
+          "Exposed API"
+        ],
+        "security": [
+          {
+            "api-key": []
+          },
+          {
+            "api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/company-balance/transactions": {
+      "get": {
+        "operationId": "ExposedApiV1CompanyBalanceController_listTransactions",
+        "summary": "List wallet transactions",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number, 1-based. Clamped to a maximum of 1000.",
+            "schema": {
+              "minimum": 1,
+              "maximum": 1000,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "page_size",
+            "required": false,
+            "in": "query",
+            "description": "Rows per page. Clamped to a maximum of 100.",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50,
+              "type": "number"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Free-text search across ad account name, source, request IDs and provider transaction IDs. Characters outside [A-Za-z0-9 .@-] are stripped before matching.",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "description": "Direction filter. `converted` isolates currency-conversion legs, which are excluded from `incoming`/`outgoing`.",
+            "schema": {
+              "enum": [
+                "incoming",
+                "outgoing",
+                "converted",
+                "all"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "description": "Settlement filter. A transaction is `pending` while the ledger entry is pending or its bank transfer is still under review.",
+            "schema": {
+              "enum": [
+                "pending",
+                "completed"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "currency",
+            "required": false,
+            "in": "query",
+            "description": "Wallet currency of the transaction.",
+            "schema": {
+              "enum": [
+                "USD",
+                "EUR",
+                "GBP"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "reference_id",
+            "required": false,
+            "in": "query",
+            "description": "Match on a human-readable reference: ledger request ID, ad account application request ID, or payout request ID.",
+            "schema": {
+              "maxLength": 64,
+              "example": "META-APL-LBGSUZMQ",
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "required": false,
+            "in": "query",
+            "description": "Only transactions attributed to this user (UUID) \u2014 either as the creator of the transaction or as the operator who applied it.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_date",
+            "required": false,
+            "in": "query",
+            "description": "ISO-8601 lower bound on creation time, inclusive.",
+            "schema": {
+              "example": "2026-01-01T00:00:00.000Z",
+              "type": "string"
+            }
+          },
+          {
+            "name": "end_date",
+            "required": false,
+            "in": "query",
+            "description": "ISO-8601 upper bound on creation time, EXCLUSIVE. The window is [start_date, end_date).",
+            "schema": {
+              "example": "2026-02-01T00:00:00.000Z",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort_by",
+            "required": false,
+            "in": "query",
+            "description": "Column to sort by.",
+            "schema": {
+              "default": "timestamp",
+              "enum": [
+                "timestamp",
+                "amount"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort_order",
+            "required": false,
+            "in": "query",
+            "description": "Sort direction.",
+            "schema": {
+              "default": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated wallet transaction history. Response envelope: `{ data: ExposedCompanyBalanceTransactionsPageDTO, metadata: { request_id, timestamp } }`",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExposedCompanyBalanceTransactionsPageDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unknown or invalid query parameter. Unrecognised parameters are rejected rather than ignored."
+          },
+          "401": {
+            "description": "Invalid or missing API key."
+          },
+          "403": {
+            "description": "Insufficient permissions or API access not enabled."
+          },
+          "429": {
+            "description": "Rate limit exceeded."
+          }
+        },
+        "tags": [
+          "Exposed API"
+        ],
+        "security": [
+          {
+            "api-key": []
+          },
+          {
+            "api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/company-balance/transactions/{transaction_id}": {
+      "get": {
+        "operationId": "ExposedApiV1CompanyBalanceController_getTransactionById",
+        "summary": "Get a wallet transaction by ID",
+        "parameters": [
+          {
+            "name": "transaction_id",
+            "required": true,
+            "in": "path",
+            "description": "UUID of the wallet transaction (format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx).",
+            "schema": {
+              "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Wallet transaction. Response envelope: `{ data: ExposedCompanyBalanceTransactionDTO, metadata: { request_id, timestamp } }`",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExposedCompanyBalanceTransactionDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "`transaction_id` is not a valid UUID."
+          },
+          "401": {
+            "description": "Invalid or missing API key."
+          },
+          "403": {
+            "description": "Insufficient permissions or API access not enabled."
+          },
+          "404": {
+            "description": "Transaction not found for this company."
+          },
+          "429": {
+            "description": "Rate limit exceeded."
+          }
+        },
+        "tags": [
+          "Exposed API"
+        ],
+        "security": [
+          {
+            "api-key": []
+          },
+          {
+            "api-key": []
+          }
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Aurora API",
+    "description": "Programmatic access for ad account operations. Authenticate using your API key in the X-API-Key header.",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "https://vantage-api.agency-aurora.com"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "api-key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    },
+    "schemas": {
+      "CreateAdAccountBMShareRequestDTO": {
+        "type": "object",
+        "properties": {
+          "business_manager_value": {
+            "type": "string",
+            "description": "Numeric ID or unique identifier of the Business Manager to share with.",
+            "example": "1234567890123"
+          },
+          "business_manager_email_value": {
+            "type": "string",
+            "description": "Admin email of the Business Manager. Required for TikTok accounts.",
+            "example": "admin@mycompany.com"
+          },
+          "confirmation": {
+            "type": "boolean",
+            "description": "Confirmation that terms have been reviewed. Required when set to true.",
+            "example": true
+          }
+        },
+        "required": [
+          "business_manager_value"
+        ]
+      },
+      "CreateAdAccountClearFundsRequestDTO": {
+        "type": "object",
+        "properties": {
+          "amount_to_clear": {
+            "type": "number",
+            "description": "Amount to withdraw from the account in the account currency (not in cents). Min: 1.00, up to 2 decimal places. Omit to request clearing all available funds.",
+            "example": 150,
+            "minimum": 1
+          },
+          "additional_fee": {
+            "type": "number",
+            "description": "Additional fee applied to the clearing request in the account currency (not in cents). Min: 0.00, up to 2 decimal places. Optional.",
+            "example": 5,
+            "minimum": 0
+          },
+          "already_fully_cleared_acknowledged": {
+            "type": "boolean",
+            "description": "Set to true to confirm funds are still on an account that was already fully cleared with nothing added since. Without it such a request is rejected with CLEAR_FUNDS_ALREADY_FULLY_CLEARED.",
+            "example": false
+          }
+        }
+      },
+      "CreateAdAccountTopUpRequestDTO": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "Top-up amount in the account currency (not in cents). Min: 1.00, Max: 1,000,000.00, up to 2 decimal places. Example: 500.00 means $500.",
+            "example": 500,
+            "minimum": 1,
+            "maximum": 1000000
+          },
+          "add_fee": {
+            "type": "boolean",
+            "description": "Fee handling. In BOTH modes the fee is `amount \u00d7 fee_rate` (rate \u00d7 the amount you typed). `false` (default): the fee is deducted \u2014 `amount` is charged to the company balance and `amount \u2212 fee` is credited to the ad account. `true`: the fee is added on top \u2014 `amount + fee` is charged to the company balance and `amount` is credited in full. Fee % is always against the amount you typed. Example at 4%: 800.00 \u2192 false: charged 800.00, fee 32.00, credited 768.00; true: charged 832.00, fee 32.00, credited 800.00.",
+            "example": false
+          }
+        },
+        "required": [
+          "amount"
+        ]
+      },
+      "PlatformConfigItemDTO": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "META",
+              "GOOGLE",
+              "TIKTOK",
+              "SNAPCHAT",
+              "BING",
+              "OUTBRAIN",
+              "TABOOLA",
+              "NEWSBREAK",
+              "MEDIAGO"
+            ]
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "Standard",
+              "Black Hat",
+              "Page Limited",
+              "Black Hat Page Limited",
+              "Credit Line",
+              "Credit Line (Premium)"
+            ]
+          },
+          "supported_currencies": {
+            "type": "array",
+            "description": "List of supported currencies for this platform",
+            "items": {
+              "type": "string",
+              "enum": [
+                "USD",
+                "EUR",
+                "GBP"
+              ]
+            }
+          },
+          "fee_percentages": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            },
+            "description": "Fee percentages per currency"
+          },
+          "minimum_top_up_cents": {
+            "type": "number",
+            "description": "Minimum top-up amount in cents"
+          }
+        },
+        "required": [
+          "type",
+          "supported_currencies",
+          "fee_percentages",
+          "minimum_top_up_cents"
+        ]
+      },
+      "PlatformConfigResponseDTO": {
+        "type": "object",
+        "properties": {
+          "platforms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlatformConfigItemDTO"
+            }
+          }
+        },
+        "required": [
+          "platforms"
+        ]
+      },
+      "AdAccountBalanceResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Balance ID (UUID)."
+          },
+          "usd_cents": {
+            "type": "number",
+            "description": "Balance in USD cents."
+          },
+          "eur_cents": {
+            "type": "number",
+            "description": "Balance in EUR cents."
+          },
+          "gbp_cents": {
+            "type": "number",
+            "description": "Balance in GBP cents."
+          }
+        },
+        "required": [
+          "id",
+          "usd_cents",
+          "eur_cents",
+          "gbp_cents"
+        ]
+      },
+      "TopUpsSummaryResponseDTO": {
+        "type": "object",
+        "properties": {
+          "lifetime_gross_top_ups": {
+            "type": "number",
+            "description": "Total charged to the wallet by successful top-ups, in the account currency \u2014 fees included in BOTH fee modes (deducted: the fee is carved out of it; added on top: the fee is inside it). Excludes reverted/rejected/pending requests. Never derive an average fee rate as fees_total / lifetime_gross_top_ups \u2014 that understates a fee added on top (3.85% for 4%); the fee base is each top-up's requested_amount_cents."
+          },
+          "clearable_amount": {
+            "type": "number",
+            "description": "Amount still clearable/refundable (landed top-ups minus approved clear-funds, fees excluded), in the account currency. Never negative."
+          },
+          "approved_clear_funds": {
+            "type": "number",
+            "description": "Lifetime approved clear-funds total, in the account currency."
+          },
+          "reverted_top_ups": {
+            "type": "number",
+            "description": "Gross amount of reverted top-ups (informational; excluded from totals), in the account currency."
+          },
+          "fees_total": {
+            "type": "number",
+            "description": "Lifetime sum of Aurora top-up fees on successful top-ups, in the account currency. Fee % = fee \u00f7 the amount you typed (requested_amount_cents on each top-up), never fees_total \u00f7 lifetime_gross_top_ups."
+          },
+          "last_top_up_at": {
+            "type": "string",
+            "description": "ISO-8601 timestamp of the most recent top-up, or null.",
+            "nullable": true
+          }
+        },
+        "required": [
+          "lifetime_gross_top_ups",
+          "clearable_amount",
+          "approved_clear_funds",
+          "reverted_top_ups",
+          "fees_total"
+        ]
+      },
+      "AdAccountResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Ad account ID (UUID)."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "META",
+              "GOOGLE",
+              "TIKTOK",
+              "SNAPCHAT",
+              "BING",
+              "OUTBRAIN",
+              "TABOOLA",
+              "NEWSBREAK",
+              "MEDIAGO"
+            ],
+            "description": "Ad platform type."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "DISABLED",
+              "PAUSED",
+              "RESTRICTED"
+            ],
+            "description": "Current account status."
+          },
+          "name": {
+            "type": "string",
+            "description": "Account display name."
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "description": "Account currency."
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "Flywheel (Sapphire)",
+              "PowerWin (Amber)",
+              "GIMC (Quartz)",
+              "HTTPOOL Romania (RO)",
+              "UL Digital (Diamond)",
+              "Hawkeye (Papaya)",
+              "Blue Focus (Pearl)",
+              "Wezo (Onyx)",
+              "GatherOne (Ruby)",
+              "CIF (Jade)",
+              "Madhouse (Emerald)",
+              "Legacy",
+              "Tecdo Sapphire",
+              "Aurora CL",
+              "Aurora BM-4 (Cards)",
+              "Aurora BM-5 (Cards)",
+              "Aurora BM-6 (Cards)",
+              "Aurora Internal BM",
+              "Aurora Google MCC",
+              "MediaGo (Opal)",
+              "Star (Topaz)",
+              "Asteria Internal BM",
+              "Borealis Internal BM",
+              "Aurora Internal Bing",
+              "Client Connected",
+              "Cheetah",
+              "PandaMobo",
+              "Tecdo-2",
+              "YinoLink",
+              "Meetsocial",
+              "Changtou",
+              "Hsou",
+              "Bravotree",
+              "Ant",
+              "Aurora Group Platforms",
+              "Australis Internal BM",
+              "Data House Aurora Group",
+              "Cyberklick",
+              "CMCM (Cheetah)",
+              "Beyondclick",
+              "Blue Focus (Beijing)",
+              "Orange",
+              "Star (Wewall)",
+              "Enting"
+            ],
+            "description": "Provider used for this account."
+          },
+          "hidden": {
+            "type": "boolean",
+            "description": "Whether the account is hidden from the dashboard."
+          },
+          "properties": {
+            "type": "object",
+            "description": "Platform-specific account properties (structure varies by type)."
+          },
+          "balance": {
+            "description": "Account balance. Included on list endpoints.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AdAccountBalanceResponseDTO"
+              }
+            ]
+          },
+          "top_ups_summary": {
+            "description": "Lifetime top-ups aggregate. Included on detail endpoints.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TopUpsSummaryResponseDTO"
+              }
+            ]
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO-8601 creation timestamp."
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO-8601 last-update timestamp."
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "status",
+          "currency",
+          "hidden",
+          "properties",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "BMShareRequestResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Request ID (UUID)."
+          },
+          "business_manager_value": {
+            "type": "string",
+            "description": "Business Manager ID value."
+          },
+          "business_manager_email_value": {
+            "type": "string",
+            "description": "Business Manager email (required for TikTok)."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "SHARED",
+              "REJECTED",
+              "MANUALLY_SUBMITTED",
+              "PROCESSING"
+            ],
+            "description": "Request status."
+          },
+          "bm_share_from_application": {
+            "type": "boolean",
+            "description": "Whether this request originated from an application."
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO-8601 creation timestamp."
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO-8601 last-update timestamp."
+          }
+        },
+        "required": [
+          "id",
+          "business_manager_value",
+          "status",
+          "bm_share_from_application",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "ExposedBulkBMShareItemDTO": {
+        "type": "object",
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "description": "UUID of the ad account to share.",
+            "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+          },
+          "business_manager_value": {
+            "type": "string",
+            "description": "Business Manager ID to share the account with."
+          },
+          "business_manager_email_value": {
+            "type": "string",
+            "description": "Business Manager email. Required for TikTok accounts, optional for other platforms."
+          }
+        },
+        "required": [
+          "account_id",
+          "business_manager_value"
+        ]
+      },
+      "CreateExposedBulkBMShareRequestDTO": {
+        "type": "object",
+        "properties": {
+          "requests": {
+            "description": "Array of BM share requests (max 50).",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExposedBulkBMShareItemDTO"
+            }
+          }
+        },
+        "required": [
+          "requests"
+        ]
+      },
+      "BulkBMShareResponseDTO": {
+        "type": "object",
+        "properties": {
+          "bulk_request_id": {
+            "type": "string",
+            "description": "Shared bulk request ID (UUID) that groups all requests in this batch."
+          },
+          "requests": {
+            "description": "Array of created BM share requests.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BMShareRequestResponseDTO"
+            }
+          }
+        },
+        "required": [
+          "bulk_request_id",
+          "requests"
+        ]
+      },
+      "ReceiptFileDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "external_url": {
+            "type": "string"
+          },
+          "size": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "type",
+          "external_url",
+          "size"
+        ]
+      },
+      "AppealResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Appeal ID (UUID)."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "UNDER_REVIEW",
+              "APPROVED",
+              "REJECTED"
+            ],
+            "description": "Appeal status."
+          },
+          "receipt_files": {
+            "description": "Uploaded evidence files.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReceiptFileDTO"
+            }
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO-8601 creation timestamp."
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO-8601 last-update timestamp."
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "receipt_files",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "ClearFundsRequestResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Request ID (UUID)."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "PROCESSING",
+              "UNDER_REVIEW",
+              "APPROVED",
+              "REJECTED"
+            ],
+            "description": "Request status."
+          },
+          "amount_to_clear_cents": {
+            "type": "number",
+            "description": "Amount to clear in account currency cents."
+          },
+          "additional_fee_cents": {
+            "type": "number",
+            "description": "Additional fee in account currency cents."
+          },
+          "amount_cents": {
+            "type": "number",
+            "description": "Raw stored amount in cents. Interpret with `amount_is_net`: when true it is the net funds cleared; otherwise (legacy) it is the gross total returned. Prefer the resolved `funds_cleared_cents` / `total_returned_cents` fields."
+          },
+          "amount_is_net": {
+            "type": "boolean",
+            "description": "Whether `amount_cents` is the net funds cleared (true) or a legacy gross total (false)."
+          },
+          "funds_cleared_cents": {
+            "type": "number",
+            "description": "Net ad-account funds cleared, in cents (resolved)."
+          },
+          "total_returned_cents": {
+            "type": "number",
+            "description": "Total returned to the company wallet in cents: funds cleared + reimbursed fee (resolved)."
+          },
+          "message": {
+            "type": "string",
+            "description": "Optional message from the reviewer."
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO-8601 creation timestamp."
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO-8601 last-update timestamp."
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "TopUpCreatedResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Top-up request ID (UUID)."
+          },
+          "short_request_id": {
+            "type": "string",
+            "description": "Human-readable request id, e.g. META-TOP-SYD34B7A.",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "description": "Request status at creation (PENDING/QUEUED)."
+          },
+          "replayed": {
+            "type": "boolean",
+            "description": "true when the Idempotency-Key matched an earlier request: the figures below are that prior request and nothing was charged again."
+          },
+          "fee_calculation_mode": {
+            "type": "string",
+            "enum": [
+              "DEDUCT_FEE_FROM_REQUESTED_AMOUNT",
+              "ADD_FEE_ON_TOP_OF_REQUESTED_AMOUNT",
+              "UNKNOWN"
+            ],
+            "description": "Fee handling the figures were computed with. The fee is ALWAYS fee_percentage \u00d7 requested_amount_cents (rate \u00d7 the amount you sent). DEDUCT_FEE_FROM_REQUESTED_AMOUNT (add_fee=false): the fee is deducted \u2014 requested_amount_cents is charged, requested_amount_cents \u2212 fee_cents is credited. ADD_FEE_ON_TOP_OF_REQUESTED_AMOUNT (add_fee=true): the fee is added on top \u2014 requested_amount_cents + fee_cents is charged, requested_amount_cents is credited in full. UNKNOWN only on an idempotent replay of a legacy request whose basis was never recorded (then fee_percentage and requested_amount_cents are null).",
+            "example": "ADD_FEE_ON_TOP_OF_REQUESTED_AMOUNT"
+          },
+          "fee_percentage": {
+            "type": "number",
+            "description": "Aurora fee rate as a FRACTION (0.04 = 4%). Fee % = fee_cents / requested_amount_cents in both modes \u2014 never fee_cents \u00f7 the wallet charge (3.85% for a 4% fee added on top).",
+            "nullable": true,
+            "example": 0.04
+          },
+          "requested_amount_cents": {
+            "type": "number",
+            "description": "The amount you sent, in cents = the fee base (charged_to_wallet_cents when deducted, credited_to_account_cents when added on top).",
+            "nullable": true,
+            "example": 80000
+          },
+          "charged_to_wallet_cents": {
+            "type": "number",
+            "description": "Total debited from the company balance (wallet), fee included in both modes.",
+            "example": 83200
+          },
+          "fee_cents": {
+            "type": "number",
+            "description": "Aurora fee in cents = fee_percentage \u00d7 requested_amount_cents.",
+            "example": 3200
+          },
+          "credited_to_account_cents": {
+            "type": "number",
+            "description": "What lands in the ad account, in cents = charged_to_wallet_cents \u2212 fee_cents.",
+            "example": 80000
+          }
+        },
+        "required": [
+          "id",
+          "short_request_id",
+          "status",
+          "replayed",
+          "fee_calculation_mode",
+          "fee_percentage",
+          "requested_amount_cents",
+          "charged_to_wallet_cents",
+          "fee_cents",
+          "credited_to_account_cents"
+        ]
+      },
+      "ApplicationMessageAuthorDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Author user ID (UUID)."
+          },
+          "name": {
+            "type": "string",
+            "description": "Author display name."
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "ApplicationMessageResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Message ID (UUID)."
+          },
+          "content": {
+            "type": "string",
+            "description": "Message content."
+          },
+          "author": {
+            "description": "Message author.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ApplicationMessageAuthorDTO"
+              }
+            ]
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO-8601 creation timestamp."
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO-8601 last-update timestamp."
+          }
+        },
+        "required": [
+          "id",
+          "content",
+          "author",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "ApplicationResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Application ID (UUID)."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "META",
+              "GOOGLE",
+              "TIKTOK",
+              "SNAPCHAT",
+              "BING",
+              "OUTBRAIN",
+              "TABOOLA",
+              "NEWSBREAK",
+              "MEDIAGO"
+            ],
+            "description": "Ad platform type."
+          },
+          "properties": {
+            "type": "object",
+            "description": "Platform-specific application properties (structure varies by type)."
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "description": "Application currency."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "UNDER_REVIEW",
+              "CHANGES_REQUIRED",
+              "CHANGES_SUBMITTED",
+              "APPROVED",
+              "REJECTED",
+              "PENDING_PROVISION",
+              "AWAITING_PROVIDER"
+            ],
+            "description": "Application status."
+          },
+          "top_up_amounts": {
+            "type": "object",
+            "description": "Top-up amounts by currency key, in cents."
+          },
+          "total_top_up_cents": {
+            "type": "number",
+            "description": "Total top-up amount in cents."
+          },
+          "total_fee_cents": {
+            "type": "number",
+            "description": "Total fee amount in cents."
+          },
+          "changes_required": {
+            "type": "string",
+            "description": "Reviewer notes on required changes."
+          },
+          "creation_provider": {
+            "type": "string",
+            "enum": [
+              "Flywheel (Sapphire)",
+              "PowerWin (Amber)",
+              "GIMC (Quartz)",
+              "HTTPOOL Romania (RO)",
+              "UL Digital (Diamond)",
+              "Hawkeye (Papaya)",
+              "Blue Focus (Pearl)",
+              "Wezo (Onyx)",
+              "GatherOne (Ruby)",
+              "CIF (Jade)",
+              "Madhouse (Emerald)",
+              "Legacy",
+              "Tecdo Sapphire",
+              "Aurora CL",
+              "Aurora BM-4 (Cards)",
+              "Aurora BM-5 (Cards)",
+              "Aurora BM-6 (Cards)",
+              "Aurora Internal BM",
+              "Aurora Google MCC",
+              "MediaGo (Opal)",
+              "Star (Topaz)",
+              "Asteria Internal BM",
+              "Borealis Internal BM",
+              "Aurora Internal Bing",
+              "Client Connected",
+              "Cheetah",
+              "PandaMobo",
+              "Tecdo-2",
+              "YinoLink",
+              "Meetsocial",
+              "Changtou",
+              "Hsou",
+              "Bravotree",
+              "Ant",
+              "Aurora Group Platforms",
+              "Australis Internal BM",
+              "Data House Aurora Group",
+              "Cyberklick",
+              "CMCM (Cheetah)",
+              "Beyondclick",
+              "Blue Focus (Beijing)",
+              "Orange",
+              "Star (Wewall)",
+              "Enting"
+            ],
+            "description": "Provider used for account creation."
+          },
+          "request_id": {
+            "type": "string",
+            "description": "Human-readable application reference ID.",
+            "example": "META-APL-LBGSUZMQ"
+          },
+          "messages": {
+            "description": "Message thread. Included on list and detail endpoints.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApplicationMessageResponseDTO"
+            }
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO-8601 creation timestamp."
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO-8601 last-update timestamp."
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "properties",
+          "currency",
+          "status",
+          "top_up_amounts",
+          "total_top_up_cents",
+          "total_fee_cents",
+          "changes_required",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "ExposedBeginApplicationResponseDTO": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "nullable": true,
+            "description": "Session id to pass as `data.request_id` when creating a Meta application. Null for platforms that do not require a begin step."
+          },
+          "session_required": {
+            "type": "boolean",
+            "description": "Whether this platform requires a begin session before create. Only META requires it; other platforms can call create directly."
+          }
+        },
+        "required": [
+          "request_id",
+          "session_required"
+        ]
+      },
+      "CreateBingAdAccountApplicationDTO": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "META",
+              "GOOGLE",
+              "TIKTOK",
+              "SNAPCHAT",
+              "BING",
+              "OUTBRAIN",
+              "TABOOLA",
+              "NEWSBREAK",
+              "MEDIAGO"
+            ],
+            "description": "Ad platform type. Must match the :adAccountType URL parameter.",
+            "example": "META"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "IANA timezone for the account. Examples: America/New_York, America/Sao_Paulo, Europe/London, Asia/Tokyo.",
+            "example": "America/New_York"
+          },
+          "advertising_links": {
+            "description": "URLs of websites or landing pages that will be advertised. At least one item required.",
+            "example": [
+              "https://example.com"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "description": "Account currency. Accepted values: USD, EUR, GBP.",
+            "example": "USD"
+          },
+          "top_up_amounts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "description": "Amount in cents (e.g. 50000 = $500)"
+            },
+            "description": "Optional predefined top-up amounts in cents. Free-form key, numeric value.",
+            "example": {
+              "default": 50000
+            }
+          },
+          "names": {
+            "description": "Desired names for the ad account(s). At least one item required. On META at most 5 \u2014 the provider's onboarding portal takes 5 ad accounts per submission, so a bigger batch has to be sent as separate requests.",
+            "example": [
+              "My Brand - Product X"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "industry_tags": {
+            "description": "Industry tags for account categorization. Optional.",
+            "example": [
+              "E-commerce",
+              "Fashion"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "needs_domain_changes": {
+            "type": "boolean",
+            "description": "Whether the advertised domain will need changes after account creation. Optional.",
+            "example": false
+          },
+          "product_description": {
+            "type": "string",
+            "description": "Brief description of the product or service being advertised.",
+            "example": "Business management software for SMBs"
+          },
+          "target_countries_regions": {
+            "type": "string",
+            "description": "Target countries or regions for the campaigns (free text).",
+            "example": "United States"
+          },
+          "account_sharing_email": {
+            "type": "string",
+            "description": "Email address used to share/grant access to the Microsoft Bing Ads account.",
+            "example": "bing@mycompany.com"
+          }
+        },
+        "required": [
+          "type",
+          "timezone",
+          "advertising_links",
+          "currency",
+          "names",
+          "product_description",
+          "target_countries_regions",
+          "account_sharing_email"
+        ]
+      },
+      "CreateGoogleAdAccountApplicationDTO": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "META",
+              "GOOGLE",
+              "TIKTOK",
+              "SNAPCHAT",
+              "BING",
+              "OUTBRAIN",
+              "TABOOLA",
+              "NEWSBREAK",
+              "MEDIAGO"
+            ],
+            "description": "Ad platform type. Must match the :adAccountType URL parameter.",
+            "example": "META"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "IANA timezone for the account. Examples: America/New_York, America/Sao_Paulo, Europe/London, Asia/Tokyo.",
+            "example": "America/New_York"
+          },
+          "advertising_links": {
+            "description": "URLs of websites or landing pages that will be advertised. At least one item required.",
+            "example": [
+              "https://example.com"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "description": "Account currency. Accepted values: USD, EUR, GBP.",
+            "example": "USD"
+          },
+          "top_up_amounts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "description": "Amount in cents (e.g. 50000 = $500)"
+            },
+            "description": "Optional predefined top-up amounts in cents. Free-form key, numeric value.",
+            "example": {
+              "default": 50000
+            }
+          },
+          "names": {
+            "description": "Desired names for the ad account(s). At least one item required. On META at most 5 \u2014 the provider's onboarding portal takes 5 ad accounts per submission, so a bigger batch has to be sent as separate requests.",
+            "example": [
+              "My Brand - Product X"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "industry_tags": {
+            "description": "Industry tags for account categorization. Optional.",
+            "example": [
+              "E-commerce",
+              "Fashion"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "needs_domain_changes": {
+            "type": "boolean",
+            "description": "Whether the advertised domain will need changes after account creation. Optional.",
+            "example": false
+          },
+          "target_countries_regions": {
+            "type": "string",
+            "description": "Target countries or regions for the campaigns (free text).",
+            "example": "United States, Canada"
+          },
+          "google_ads_manager_mcc_id": {
+            "type": "string",
+            "description": "Google Ads Manager Account (MCC) ID in XXX-XXX-XXXX format.",
+            "example": "123-456-7890"
+          }
+        },
+        "required": [
+          "type",
+          "timezone",
+          "advertising_links",
+          "currency",
+          "names",
+          "target_countries_regions",
+          "google_ads_manager_mcc_id"
+        ]
+      },
+      "CreateMetaAdAccountApplicationDTO": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "META",
+              "GOOGLE",
+              "TIKTOK",
+              "SNAPCHAT",
+              "BING",
+              "OUTBRAIN",
+              "TABOOLA",
+              "NEWSBREAK",
+              "MEDIAGO"
+            ],
+            "description": "Ad platform type. Must match the :adAccountType URL parameter.",
+            "example": "META"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "IANA timezone for the account. Examples: America/New_York, America/Sao_Paulo, Europe/London, Asia/Tokyo.",
+            "example": "America/New_York"
+          },
+          "advertising_links": {
+            "description": "URLs of websites or landing pages that will be advertised. At least one item required.",
+            "example": [
+              "https://example.com"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "description": "Account currency. Accepted values: USD, EUR, GBP.",
+            "example": "USD"
+          },
+          "top_up_amounts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "description": "Amount in cents (e.g. 50000 = $500)"
+            },
+            "description": "Optional predefined top-up amounts in cents. Free-form key, numeric value.",
+            "example": {
+              "default": 50000
+            }
+          },
+          "names": {
+            "description": "Desired names for the ad account(s). At least one item required. On META at most 5 \u2014 the provider's onboarding portal takes 5 ad accounts per submission, so a bigger batch has to be sent as separate requests.",
+            "example": [
+              "My Brand - Product X"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "industry_tags": {
+            "description": "Industry tags for account categorization. Optional.",
+            "example": [
+              "E-commerce",
+              "Fashion"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "needs_domain_changes": {
+            "type": "boolean",
+            "description": "Whether the advertised domain will need changes after account creation. Optional.",
+            "example": false
+          },
+          "account_type": {
+            "type": "string",
+            "enum": [
+              "Standard",
+              "Black Hat",
+              "Page Limited",
+              "Black Hat Page Limited",
+              "Credit Line",
+              "Credit Line (Premium)"
+            ],
+            "description": "Meta account subtype. Use \"Standard\" for regular accounts.",
+            "example": "Standard"
+          },
+          "business_manager_ids": {
+            "description": "Numeric IDs of the Meta Business Managers that will have access to the account.",
+            "example": [
+              "1234567890123"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "page_links": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "description": "Facebook Page URL"
+            },
+            "description": "Map of Business Manager ID \u2192 Facebook Page URL. Key is the BM numeric ID, value is the page URL. At most 5 pages per request.",
+            "example": {
+              "1234567890123": "https://facebook.com/mypage"
+            }
+          },
+          "specific_links_acknowledgement": {
+            "type": "boolean",
+            "description": "Acknowledgement that specific advertising links have been reviewed. Required when set to true.",
+            "example": true
+          },
+          "invited_links": {
+            "type": "boolean",
+            "description": "Whether invited links are included in this application. Required when set to true.",
+            "example": false
+          },
+          "payment_method": {
+            "type": "string",
+            "enum": [
+              "CREDIT_LINE",
+              "AURORA_CARD",
+              "CLIENT_CARD",
+              "PROVIDER_CARD"
+            ],
+            "description": "Whitelisted payment method for the account. Optional. Options: CREDIT_LINE, AURORA_CARD, CLIENT_CARD, PROVIDER_CARD.",
+            "example": "AURORA_CARD"
+          },
+          "credit_card_name": {
+            "type": "string",
+            "description": "Name on the credit card. Required when payment_method involves a card.",
+            "example": "JOHN DOE"
+          },
+          "target_countries_regions": {
+            "type": "string",
+            "description": "Target countries or regions for the campaigns (free text).",
+            "example": "Brazil, Mexico, United States"
+          },
+          "estimated_monthly_spend": {
+            "type": "string",
+            "description": "Estimated monthly ad spend for this account (free text, include currency symbol).",
+            "example": "$5,000"
+          },
+          "creatives_link": {
+            "type": "string",
+            "description": "URL of the creatives folder or drive link where ad creatives are stored.",
+            "example": "https://drive.google.com/drive/folders/my-creatives"
+          },
+          "page_sharing_proofs": {
+            "description": "URLs of the screenshots or PDFs proving the Facebook Pages were shared with the Business Manager. Each entry must be a URL returned by POST /ad-account-application/meta/page-sharing-proof.",
+            "example": [
+              "https://fsn1.your-objectstorage.com/aurora-bucket/a1b2c3d4-e5f6-7890-abcd-ef1234567890/page-sharing-proofs/1712345678901-123456789-page-share-confirmation.png"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "request_id": {
+            "type": "string",
+            "description": "A unique UUID for this application session. Generate client-side using crypto.randomUUID() or equivalent.",
+            "example": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+          }
+        },
+        "required": [
+          "type",
+          "timezone",
+          "advertising_links",
+          "currency",
+          "names",
+          "account_type",
+          "business_manager_ids",
+          "page_links",
+          "specific_links_acknowledgement",
+          "invited_links",
+          "request_id"
+        ]
+      },
+      "CreateSnapchatAdAccountApplicationDTO": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "META",
+              "GOOGLE",
+              "TIKTOK",
+              "SNAPCHAT",
+              "BING",
+              "OUTBRAIN",
+              "TABOOLA",
+              "NEWSBREAK",
+              "MEDIAGO"
+            ],
+            "description": "Ad platform type. Must match the :adAccountType URL parameter.",
+            "example": "META"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "IANA timezone for the account. Examples: America/New_York, America/Sao_Paulo, Europe/London, Asia/Tokyo.",
+            "example": "America/New_York"
+          },
+          "advertising_links": {
+            "description": "URLs of websites or landing pages that will be advertised. At least one item required.",
+            "example": [
+              "https://example.com"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "description": "Account currency. Accepted values: USD, EUR, GBP.",
+            "example": "USD"
+          },
+          "top_up_amounts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "description": "Amount in cents (e.g. 50000 = $500)"
+            },
+            "description": "Optional predefined top-up amounts in cents. Free-form key, numeric value.",
+            "example": {
+              "default": 50000
+            }
+          },
+          "names": {
+            "description": "Desired names for the ad account(s). At least one item required. On META at most 5 \u2014 the provider's onboarding portal takes 5 ad accounts per submission, so a bigger batch has to be sent as separate requests.",
+            "example": [
+              "My Brand - Product X"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "industry_tags": {
+            "description": "Industry tags for account categorization. Optional.",
+            "example": [
+              "E-commerce",
+              "Fashion"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "needs_domain_changes": {
+            "type": "boolean",
+            "description": "Whether the advertised domain will need changes after account creation. Optional.",
+            "example": false
+          },
+          "target_countries_regions": {
+            "type": "string",
+            "description": "Target countries or regions for the campaigns (free text).",
+            "example": "United States, Canada"
+          },
+          "snapchat_username": {
+            "type": "string",
+            "description": "Snapchat public username of the brand (without @).",
+            "example": "mycompany"
+          },
+          "admin_email": {
+            "type": "string",
+            "description": "Admin email address to grant access to the Snapchat Ads account.",
+            "example": "admin@mycompany.com"
+          }
+        },
+        "required": [
+          "type",
+          "timezone",
+          "advertising_links",
+          "currency",
+          "names",
+          "target_countries_regions",
+          "snapchat_username",
+          "admin_email"
+        ]
+      },
+      "CreateTiktokAdAccountApplicationDTO": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "META",
+              "GOOGLE",
+              "TIKTOK",
+              "SNAPCHAT",
+              "BING",
+              "OUTBRAIN",
+              "TABOOLA",
+              "NEWSBREAK",
+              "MEDIAGO"
+            ],
+            "description": "Ad platform type. Must match the :adAccountType URL parameter.",
+            "example": "META"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "IANA timezone for the account. Examples: America/New_York, America/Sao_Paulo, Europe/London, Asia/Tokyo.",
+            "example": "America/New_York"
+          },
+          "advertising_links": {
+            "description": "URLs of websites or landing pages that will be advertised. At least one item required.",
+            "example": [
+              "https://example.com"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "description": "Account currency. Accepted values: USD, EUR, GBP.",
+            "example": "USD"
+          },
+          "top_up_amounts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "description": "Amount in cents (e.g. 50000 = $500)"
+            },
+            "description": "Optional predefined top-up amounts in cents. Free-form key, numeric value.",
+            "example": {
+              "default": 50000
+            }
+          },
+          "names": {
+            "description": "Desired names for the ad account(s). At least one item required. On META at most 5 \u2014 the provider's onboarding portal takes 5 ad accounts per submission, so a bigger batch has to be sent as separate requests.",
+            "example": [
+              "My Brand - Product X"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "industry_tags": {
+            "description": "Industry tags for account categorization. Optional.",
+            "example": [
+              "E-commerce",
+              "Fashion"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "needs_domain_changes": {
+            "type": "boolean",
+            "description": "Whether the advertised domain will need changes after account creation. Optional.",
+            "example": false
+          },
+          "creatives_link": {
+            "type": "string",
+            "description": "URL of the creatives folder or drive link where ad creatives are stored.",
+            "example": "https://drive.google.com/drive/folders/my-creatives"
+          },
+          "product_description": {
+            "type": "string",
+            "description": "Brief description of the product or service being advertised.",
+            "example": "Fitness apparel brand targeting young adults"
+          },
+          "target_countries_regions": {
+            "type": "string",
+            "description": "Target countries or regions for the campaigns (free text).",
+            "example": "Brazil, Mexico, United States"
+          },
+          "target_ages": {
+            "type": "string",
+            "description": "Target age range for the campaigns (free text).",
+            "example": "18-34"
+          },
+          "tiktok_business_center_id": {
+            "type": "string",
+            "description": "TikTok Business Center ID (numeric, 19 digits).",
+            "example": "7123456789012345678"
+          },
+          "tiktok_business_center_email": {
+            "type": "string",
+            "description": "Admin email associated with the TikTok Business Center. Also used as the BM share request email.",
+            "example": "admin@mycompany.com"
+          },
+          "estimated_monthly_spend": {
+            "type": "string",
+            "description": "Estimated monthly ad spend for this account (free text, include currency symbol).",
+            "example": "$5,000"
+          }
+        },
+        "required": [
+          "type",
+          "timezone",
+          "advertising_links",
+          "currency",
+          "names",
+          "creatives_link",
+          "product_description",
+          "target_countries_regions",
+          "target_ages",
+          "tiktok_business_center_id",
+          "tiktok_business_center_email"
+        ]
+      },
+      "CreateTaboolaAdAccountApplicationDTO": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "META",
+              "GOOGLE",
+              "TIKTOK",
+              "SNAPCHAT",
+              "BING",
+              "OUTBRAIN",
+              "TABOOLA",
+              "NEWSBREAK",
+              "MEDIAGO"
+            ],
+            "description": "Ad platform type. Must match the :adAccountType URL parameter.",
+            "example": "META"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "IANA timezone for the account. Examples: America/New_York, America/Sao_Paulo, Europe/London, Asia/Tokyo.",
+            "example": "America/New_York"
+          },
+          "advertising_links": {
+            "description": "URLs of websites or landing pages that will be advertised. At least one item required.",
+            "example": [
+              "https://example.com"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "description": "Account currency. Accepted values: USD, EUR, GBP.",
+            "example": "USD"
+          },
+          "top_up_amounts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "description": "Amount in cents (e.g. 50000 = $500)"
+            },
+            "description": "Optional predefined top-up amounts in cents. Free-form key, numeric value.",
+            "example": {
+              "default": 50000
+            }
+          },
+          "names": {
+            "description": "Desired names for the ad account(s). At least one item required. On META at most 5 \u2014 the provider's onboarding portal takes 5 ad accounts per submission, so a bigger batch has to be sent as separate requests.",
+            "example": [
+              "My Brand - Product X"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "industry_tags": {
+            "description": "Industry tags for account categorization. Optional.",
+            "example": [
+              "E-commerce",
+              "Fashion"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "needs_domain_changes": {
+            "type": "boolean",
+            "description": "Whether the advertised domain will need changes after account creation. Optional.",
+            "example": false
+          },
+          "target_countries_regions": {
+            "type": "string",
+            "description": "Target countries or regions for the campaigns (free text).",
+            "example": "Brazil, Argentina"
+          },
+          "account_country": {
+            "type": "string",
+            "enum": [
+              "US",
+              "CA",
+              "BR",
+              "MX",
+              "AR",
+              "CL",
+              "CO",
+              "PE",
+              "UY",
+              "PA",
+              "PR",
+              "GB",
+              "DE",
+              "FR",
+              "ES",
+              "IT",
+              "NL",
+              "AT",
+              "BE",
+              "CH",
+              "SE",
+              "NO",
+              "DK",
+              "FI",
+              "PL",
+              "PT",
+              "CZ",
+              "RO",
+              "HU",
+              "IE",
+              "GR",
+              "TR",
+              "UA",
+              "AU",
+              "NZ",
+              "JP",
+              "SG",
+              "HK",
+              "MY",
+              "IN",
+              "PH",
+              "TH",
+              "TW"
+            ],
+            "description": "Country/language the account itself is created in (ISO 3166-1 alpha-2). A Taboola account exists in exactly one country/language, so only one code is accepted.",
+            "example": "US"
+          },
+          "admin_email": {
+            "type": "string",
+            "description": "Admin email address to grant full access to the Taboola account.",
+            "example": "admin@mycompany.com"
+          },
+          "view_only_email": {
+            "type": "string",
+            "description": "Email address to grant view-only access to the Taboola account.",
+            "example": "viewer@mycompany.com"
+          },
+          "estimated_monthly_spend": {
+            "type": "string",
+            "description": "Estimated monthly ad spend for this account (free text, include currency symbol).",
+            "example": "$5,000"
+          },
+          "creatives_link": {
+            "type": "string",
+            "description": "URL of the creatives folder or drive link where ad creatives are stored.",
+            "example": "https://drive.google.com/drive/folders/my-creatives"
+          }
+        },
+        "required": [
+          "type",
+          "timezone",
+          "advertising_links",
+          "currency",
+          "names",
+          "target_countries_regions",
+          "admin_email",
+          "view_only_email",
+          "estimated_monthly_spend"
+        ]
+      },
+      "CreateOutbrainAdAccountApplicationDTO": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "META",
+              "GOOGLE",
+              "TIKTOK",
+              "SNAPCHAT",
+              "BING",
+              "OUTBRAIN",
+              "TABOOLA",
+              "NEWSBREAK",
+              "MEDIAGO"
+            ],
+            "description": "Ad platform type. Must match the :adAccountType URL parameter.",
+            "example": "META"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "IANA timezone for the account. Examples: America/New_York, America/Sao_Paulo, Europe/London, Asia/Tokyo.",
+            "example": "America/New_York"
+          },
+          "advertising_links": {
+            "description": "URLs of websites or landing pages that will be advertised. At least one item required.",
+            "example": [
+              "https://example.com"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "description": "Account currency. Accepted values: USD, EUR, GBP.",
+            "example": "USD"
+          },
+          "top_up_amounts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "description": "Amount in cents (e.g. 50000 = $500)"
+            },
+            "description": "Optional predefined top-up amounts in cents. Free-form key, numeric value.",
+            "example": {
+              "default": 50000
+            }
+          },
+          "names": {
+            "description": "Desired names for the ad account(s). At least one item required. On META at most 5 \u2014 the provider's onboarding portal takes 5 ad accounts per submission, so a bigger batch has to be sent as separate requests.",
+            "example": [
+              "My Brand - Product X"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "industry_tags": {
+            "description": "Industry tags for account categorization. Optional.",
+            "example": [
+              "E-commerce",
+              "Fashion"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "needs_domain_changes": {
+            "type": "boolean",
+            "description": "Whether the advertised domain will need changes after account creation. Optional.",
+            "example": false
+          },
+          "target_countries_regions": {
+            "type": "string",
+            "description": "Target countries or regions for the campaigns (free text).",
+            "example": "Brazil, Colombia"
+          },
+          "account_country": {
+            "type": "string",
+            "enum": [
+              "US",
+              "CA",
+              "BR",
+              "MX",
+              "AR",
+              "CL",
+              "CO",
+              "PE",
+              "UY",
+              "PA",
+              "PR",
+              "GB",
+              "DE",
+              "FR",
+              "ES",
+              "IT",
+              "NL",
+              "AT",
+              "BE",
+              "CH",
+              "SE",
+              "NO",
+              "DK",
+              "FI",
+              "PL",
+              "PT",
+              "CZ",
+              "RO",
+              "HU",
+              "IE",
+              "GR",
+              "TR",
+              "UA",
+              "AU",
+              "NZ",
+              "JP",
+              "SG",
+              "HK",
+              "MY",
+              "IN",
+              "PH",
+              "TH",
+              "TW"
+            ],
+            "description": "Country/language the account itself is created in (ISO 3166-1 alpha-2). An Outbrain account exists in exactly one country/language, so only one code is accepted.",
+            "example": "US"
+          },
+          "admin_email": {
+            "type": "string",
+            "description": "Admin email address to grant full access to the Outbrain account.",
+            "example": "admin@mycompany.com"
+          },
+          "view_only_email": {
+            "type": "string",
+            "description": "Email address to grant view-only access to the Outbrain account.",
+            "example": "viewer@mycompany.com"
+          },
+          "estimated_monthly_spend": {
+            "type": "string",
+            "description": "Estimated monthly ad spend for this account (free text, include currency symbol).",
+            "example": "$3,000"
+          },
+          "break_even_cpa": {
+            "type": "string",
+            "description": "Break-even CPA in USD for the whole request (a number).",
+            "example": "25"
+          }
+        },
+        "required": [
+          "type",
+          "timezone",
+          "advertising_links",
+          "currency",
+          "names",
+          "target_countries_regions",
+          "admin_email",
+          "view_only_email",
+          "estimated_monthly_spend",
+          "break_even_cpa"
+        ]
+      },
+      "CreateNewsbreakAdAccountApplicationDTO": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "META",
+              "GOOGLE",
+              "TIKTOK",
+              "SNAPCHAT",
+              "BING",
+              "OUTBRAIN",
+              "TABOOLA",
+              "NEWSBREAK",
+              "MEDIAGO"
+            ],
+            "description": "Ad platform type. Must match the :adAccountType URL parameter.",
+            "example": "META"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "IANA timezone for the account. Examples: America/New_York, America/Sao_Paulo, Europe/London, Asia/Tokyo.",
+            "example": "America/New_York"
+          },
+          "advertising_links": {
+            "description": "URLs of websites or landing pages that will be advertised. At least one item required.",
+            "example": [
+              "https://example.com"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "description": "Account currency. Accepted values: USD, EUR, GBP.",
+            "example": "USD"
+          },
+          "top_up_amounts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "description": "Amount in cents (e.g. 50000 = $500)"
+            },
+            "description": "Optional predefined top-up amounts in cents. Free-form key, numeric value.",
+            "example": {
+              "default": 50000
+            }
+          },
+          "names": {
+            "description": "Desired names for the ad account(s). At least one item required. On META at most 5 \u2014 the provider's onboarding portal takes 5 ad accounts per submission, so a bigger batch has to be sent as separate requests.",
+            "example": [
+              "My Brand - Product X"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "industry_tags": {
+            "description": "Industry tags for account categorization. Optional.",
+            "example": [
+              "E-commerce",
+              "Fashion"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "needs_domain_changes": {
+            "type": "boolean",
+            "description": "Whether the advertised domain will need changes after account creation. Optional.",
+            "example": false
+          },
+          "admin_email": {
+            "type": "string",
+            "description": "Admin email address to grant access to the Newsbreak Ads account.",
+            "example": "admin@mycompany.com"
+          },
+          "industry": {
+            "type": "string",
+            "description": "Industry vertical for the advertiser (free text). Optional: admin-created accounts have no industry data.",
+            "example": "Retail"
+          }
+        },
+        "required": [
+          "type",
+          "timezone",
+          "advertising_links",
+          "currency",
+          "names",
+          "admin_email"
+        ]
+      },
+      "CreateMediagoAdAccountApplicationDTO": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "META",
+              "GOOGLE",
+              "TIKTOK",
+              "SNAPCHAT",
+              "BING",
+              "OUTBRAIN",
+              "TABOOLA",
+              "NEWSBREAK",
+              "MEDIAGO"
+            ],
+            "description": "Ad platform type. Must match the :adAccountType URL parameter.",
+            "example": "META"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "IANA timezone for the account. Examples: America/New_York, America/Sao_Paulo, Europe/London, Asia/Tokyo.",
+            "example": "America/New_York"
+          },
+          "advertising_links": {
+            "description": "URLs of websites or landing pages that will be advertised. At least one item required.",
+            "example": [
+              "https://example.com"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "description": "Account currency. Accepted values: USD, EUR, GBP.",
+            "example": "USD"
+          },
+          "top_up_amounts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "description": "Amount in cents (e.g. 50000 = $500)"
+            },
+            "description": "Optional predefined top-up amounts in cents. Free-form key, numeric value.",
+            "example": {
+              "default": 50000
+            }
+          },
+          "names": {
+            "description": "Desired names for the ad account(s). At least one item required. On META at most 5 \u2014 the provider's onboarding portal takes 5 ad accounts per submission, so a bigger batch has to be sent as separate requests.",
+            "example": [
+              "My Brand - Product X"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "industry_tags": {
+            "description": "Industry tags for account categorization. Optional.",
+            "example": [
+              "E-commerce",
+              "Fashion"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "needs_domain_changes": {
+            "type": "boolean",
+            "description": "Whether the advertised domain will need changes after account creation. Optional.",
+            "example": false
+          },
+          "target_countries_regions": {
+            "type": "string",
+            "description": "Target countries or regions for the campaigns (free text).",
+            "example": "United States, Japan"
+          },
+          "admin_email": {
+            "type": "string",
+            "description": "Admin email address to grant access to the MediaGo Ads account.",
+            "example": "admin@mycompany.com"
+          },
+          "estimated_monthly_spend": {
+            "type": "string",
+            "description": "Estimated monthly ad spend for this account (free text, include currency symbol).",
+            "example": "$2,000"
+          },
+          "industry": {
+            "type": "string",
+            "description": "Industry vertical for the advertiser (free text). Optional: admin-created accounts have no industry data.",
+            "example": "Technology"
+          }
+        },
+        "required": [
+          "type",
+          "timezone",
+          "advertising_links",
+          "currency",
+          "names",
+          "target_countries_regions",
+          "admin_email",
+          "estimated_monthly_spend"
+        ]
+      },
+      "CreateAdAccountApplicationDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "Platform-specific application data. The \"type\" field inside determines the schema.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CreateBingAdAccountApplicationDTO"
+              },
+              {
+                "$ref": "#/components/schemas/CreateGoogleAdAccountApplicationDTO"
+              },
+              {
+                "$ref": "#/components/schemas/CreateMetaAdAccountApplicationDTO"
+              },
+              {
+                "$ref": "#/components/schemas/CreateSnapchatAdAccountApplicationDTO"
+              },
+              {
+                "$ref": "#/components/schemas/CreateTiktokAdAccountApplicationDTO"
+              },
+              {
+                "$ref": "#/components/schemas/CreateTaboolaAdAccountApplicationDTO"
+              },
+              {
+                "$ref": "#/components/schemas/CreateOutbrainAdAccountApplicationDTO"
+              },
+              {
+                "$ref": "#/components/schemas/CreateNewsbreakAdAccountApplicationDTO"
+              },
+              {
+                "$ref": "#/components/schemas/CreateMediagoAdAccountApplicationDTO"
+              }
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "WhoamiResponseDTO": {
+        "type": "object",
+        "properties": {
+          "api_key_valid": {
+            "type": "boolean",
+            "default": true,
+            "description": "Always true \u2014 reaching this means the key authenticated."
+          },
+          "company_id": {
+            "type": "string"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rate_limit_tier": {
+            "type": "string",
+            "enum": [
+              "STANDARD",
+              "ELEVATED",
+              "UNLIMITED"
+            ]
+          },
+          "execution_mode": {
+            "type": "string",
+            "enum": [
+              "LIVE",
+              "DRY_RUN"
+            ]
+          },
+          "dry_run": {
+            "type": "boolean",
+            "description": "True when execution_mode is DRY_RUN."
+          },
+          "real_mutations_allowed": {
+            "type": "boolean",
+            "description": "Whether this key performs real mutations (false for DRY_RUN)."
+          },
+          "real_provider_calls_allowed": {
+            "type": "boolean",
+            "description": "Whether this key triggers real provider/external calls (false for DRY_RUN)."
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable summary of the execution mode for the client."
+          }
+        },
+        "required": [
+          "api_key_valid",
+          "company_id",
+          "permissions",
+          "rate_limit_tier",
+          "execution_mode",
+          "dry_run",
+          "real_mutations_allowed",
+          "real_provider_calls_allowed",
+          "message"
+        ]
+      },
+      "ExposedTransactionUserDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User ID (UUID)."
+          },
+          "name": {
+            "type": "string",
+            "description": "User display name."
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "ExposedTransactionAdAccountDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Ad account ID (UUID)."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "META",
+              "GOOGLE",
+              "TIKTOK",
+              "SNAPCHAT",
+              "BING",
+              "OUTBRAIN",
+              "TABOOLA",
+              "NEWSBREAK",
+              "MEDIAGO"
+            ],
+            "description": "Ad platform type."
+          },
+          "name": {
+            "type": "string",
+            "description": "Ad account display name."
+          },
+          "external_account_id": {
+            "type": "string",
+            "description": "Platform-side account identifier, when known."
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ]
+      },
+      "ExposedTransactionApplicationDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Application ID (UUID)."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "META",
+              "GOOGLE",
+              "TIKTOK",
+              "SNAPCHAT",
+              "BING",
+              "OUTBRAIN",
+              "TABOOLA",
+              "NEWSBREAK",
+              "MEDIAGO"
+            ],
+            "description": "Ad platform type."
+          },
+          "request_id": {
+            "type": "string",
+            "description": "Human-readable application reference ID.",
+            "example": "META-APL-LBGSUZMQ"
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ]
+      },
+      "ExposedTransactionChargeDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Charge ID (UUID)."
+          },
+          "invoice_id": {
+            "type": "string",
+            "description": "Invoice identifier."
+          },
+          "description": {
+            "type": "string",
+            "description": "Charge description."
+          },
+          "amount_cents": {
+            "type": "number",
+            "description": "Charge amount in cents."
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "description": "Charge currency."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "paid",
+              "unpaid",
+              "voided",
+              "refunded"
+            ],
+            "description": "Charge status."
+          }
+        },
+        "required": [
+          "id",
+          "amount_cents",
+          "currency",
+          "status"
+        ]
+      },
+      "ExposedCompanyBalanceTransactionDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Transaction ID (UUID)."
+          },
+          "reference_id": {
+            "type": "string",
+            "description": "Human-readable reference for this transaction, falling back to the originating application reference.",
+            "example": "META-APL-LBGSUZMQ"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "unknown",
+              "added",
+              "removed"
+            ],
+            "description": "Whether funds were added to or removed from the wallet."
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "unknown",
+              "conversion",
+              "stripe",
+              "admin_edit",
+              "bank_transfer",
+              "ad_account_application",
+              "ad_account_top_up",
+              "ad_account_clear_funds",
+              "cryptocurrency",
+              "affiliate_commission",
+              "admin_charge",
+              "wallet_refund"
+            ],
+            "description": "What produced this ledger entry."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "completed"
+            ],
+            "description": "Settlement status. `pending` while the entry itself is pending or its bank transfer is still under review."
+          },
+          "amount_cents": {
+            "type": "number",
+            "description": "Signed amount in cents: positive when funds were added, negative when removed."
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "unknown",
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "description": "Wallet currency of this transaction."
+          },
+          "invoice_number": {
+            "type": "string",
+            "description": "Invoice number, when one was issued."
+          },
+          "payout_request_id": {
+            "type": "string",
+            "description": "Affiliate payout request this entry settles, when applicable."
+          },
+          "provider_reference": {
+            "type": "string",
+            "description": "Provider-side reference for reconciliation: Stripe balance transaction ID, bank transfer transaction ID, or on-chain transaction hash, depending on `source`."
+          },
+          "created_by": {
+            "description": "Company member who triggered the transaction. Null for system-generated entries.",
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExposedTransactionUserDTO"
+              }
+            ]
+          },
+          "ad_account": {
+            "description": "Ad account this transaction relates to, when applicable.",
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExposedTransactionAdAccountDTO"
+              }
+            ]
+          },
+          "ad_account_application": {
+            "description": "Ad account application this transaction relates to.",
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExposedTransactionApplicationDTO"
+              }
+            ]
+          },
+          "charge": {
+            "description": "Invoice charge this transaction settles, when applicable.",
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExposedTransactionChargeDTO"
+              }
+            ]
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "ISO-8601 creation timestamp."
+          }
+        },
+        "required": [
+          "id",
+          "action",
+          "source",
+          "status",
+          "amount_cents",
+          "currency",
+          "created_at"
+        ]
+      },
+      "ExposedCompanyBalanceTransactionsPageDTO": {
+        "type": "object",
+        "properties": {
+          "transactions": {
+            "description": "Transactions on this page, newest first by default.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExposedCompanyBalanceTransactionDTO"
+            }
+          },
+          "page": {
+            "type": "number",
+            "description": "Current page number, 1-based."
+          },
+          "page_size": {
+            "type": "number",
+            "description": "Rows per page actually applied after clamping."
+          },
+          "page_count": {
+            "type": "number",
+            "description": "Total number of pages for this filter set."
+          },
+          "total": {
+            "type": "number",
+            "description": "Total number of matching transactions."
+          }
+        },
+        "required": [
+          "transactions",
+          "page",
+          "page_size",
+          "page_count",
+          "total"
+        ]
+      }
+    }
+  }
+}

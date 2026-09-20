@@ -1,0 +1,74 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  role         String
+  passwordHash String
+  auroraUserId String?
+  createdAt    DateTime @default(now())
+
+  actionLogs   ActionLog[]
+  attributions SpendAttribution[]
+}
+
+model ActionLog {
+  id             String   @id @default(cuid())
+  actorUserId    String
+  actor          User     @relation(fields: [actorUserId], references: [id], onDelete: Cascade)
+  type           String
+  auroraEntityId String?
+  payloadJson    String
+  resultJson     String
+  createdAt      DateTime @default(now())
+
+  attributions SpendAttribution[]
+
+  @@index([actorUserId])
+  @@index([createdAt])
+}
+
+model SpendAttribution {
+  id                  String   @id @default(cuid())
+  actorUserId         String
+  actor               User     @relation(fields: [actorUserId], references: [id], onDelete: Cascade)
+  auroraTransactionId String?
+  actionLogId         String?
+  actionLog           ActionLog? @relation(fields: [actionLogId], references: [id], onDelete: SetNull)
+  amountCents         Int
+  currency            String
+  note                String?
+  createdAt           DateTime @default(now())
+
+  @@index([actorUserId])
+  @@index([auroraTransactionId])
+}
+
+model CachedAdAccount {
+  id          String   @id
+  type        String
+  status      String
+  name        String?
+  currency    String
+  provider    String?
+  hidden      Boolean  @default(false)
+  usdCents    Int      @default(0)
+  eurCents    Int      @default(0)
+  gbpCents    Int      @default(0)
+  payloadJson String
+  updatedAt   DateTime @updatedAt
+}
+
+model AppSetting {
+  key   String @id
+  value String
+}
